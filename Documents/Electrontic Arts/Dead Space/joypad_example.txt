@@ -1,0 +1,21 @@
+Pad.RightDPad.Left = Button.4
+Pad.RightDPad.Down =Button.3
+Pad.RightDPad.Right = Button.2
+Pad.RightDPad.Up = Button.1
+
+Pad.Trigger.LeftTop = Button.7
+Pad.Trigger.LeftBottom = Button.5
+Pad.Trigger.RightTop = Button.8
+Pad.Trigger.RightBottom = Button.6
+
+Pad.Start = Button.10
+Pad.Back = Button.9
+
+Pad.LeftStick.Click = Button.11
+Pad.RightStick.Click = Button.16
+
+Pad.LeftStick.X = X-Axis
+Pad.LeftStick.Y = Y-Axis.Inverted
+
+Pad.RightStick.X = Z-Axis
+Pad.RightStick.Y = Z-Rotation

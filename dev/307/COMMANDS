@@ -1,0 +1,13 @@
+##starting docker
+```
+docker run -it -p 3000:3000 -v hostPath:containerPath rails
+
+##Rails
+###New Project
+```rails new <project-name>```
+
+###Generate API Scaffold
+```rails generate scaffold <Name> [field:type,...]```
+
+### Start Rails Server ###
+```rails s[erver]```

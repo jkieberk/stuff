@@ -1,0 +1,2275 @@
+  [1m[35m (3.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateUsers (20160926232036)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "password" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20160926232036"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCourses (20160926232118)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "courses" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "number" integer, "section" integer, "semesters_id" integer, "max_students" integer, "departments_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[34mselect sqlite_version(*)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE  INDEX "index_courses_on_semesters_id" ON "courses" ("semesters_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_courses_on_semesters_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_courses_on_semesters_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE  INDEX "index_courses_on_departments_id" ON "courses" ("departments_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20160926232118"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateDepartments (20160926232143)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "departments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "schools_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE  INDEX "index_departments_on_schools_id" ON "departments" ("schools_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20160926232143"]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateSchools (20160926232155)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "schools" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20160926232155"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateCounters (20160926232211)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateCounters (20160926232211)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "counters" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "courses_id" integer, "users_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[34mselect sqlite_version(*)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE  INDEX "index_counters_on_courses_id" ON "counters" ("courses_id")[0m
+  [1m[35m (0.0ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_counters_on_courses_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_counters_on_courses_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE  INDEX "index_counters_on_users_id" ON "counters" ("users_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20160926232211"]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+Migrating to CreateSemesters (20160926232239)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE TABLE "semesters" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "courses_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE  INDEX "index_semesters_on_courses_id" ON "semesters" ("courses_id")[0m
+  [1m[35mSQL (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20160926232239"]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", 2016-09-26 23:37:12 UTC], ["updated_at", 2016-09-26 23:37:12 UTC]]
+  [1m[35m (1.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.0ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_counters_on_users_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_counters_on_users_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_counters_on_courses_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_counters_on_courses_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_courses_on_departments_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_courses_on_departments_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_courses_on_semesters_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_courses_on_semesters_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_departments_on_schools_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_departments_on_schools_id' AND type='index'
+[0m
+  [1m[35m (0.0ms)[0m  [1m[34m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_semesters_on_courses_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_semesters_on_courses_id' AND type='index'
+[0m
+Started GET "/" for ::1 at 2016-09-26 19:43:13 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Rails::WelcomeController#index as HTML
+  Parameters: {"internal"=>true}
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/railties-5.0.0.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/railties-5.0.0.1/lib/rails/templates/rails/welcome/index.html.erb (5.0ms)
+Completed 200 OK in 62ms (Views: 30.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:43:18 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 953ms (Views: 932.1ms | ActiveRecord: 0.0ms)
+
+
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (7.0ms)[0m  [1m[32mINSERT INTO "courses" ("name", "number", "section", "max_students", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["name", "Mobile Aesthetic Design"], ["number", 307], ["section", 1], ["max_students", 30], ["created_at", 2016-09-26 23:50:02 UTC], ["updated_at", 2016-09-26 23:50:02 UTC]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:36 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 297ms (Views: 274.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:47 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 81ms (Views: 61.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:48 -0400
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:48 -0400
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:48 -0400
+  Rendering dashboard/index.html.erb within layouts/application
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:48 -0400
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:48 -0400
+  Rendering dashboard/index.html.erb within layouts/application
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 500 Internal Server Error in 289ms (ActiveRecord: 0.0ms)
+
+
+  
+Completed 200 OK in 376ms (Views: 362.2ms | ActiveRecord: 0.0ms)
+
+
+ActionView::Template::Error (Permission denied @ utime_failed - C:/Users/kieb2673/Desktop/tally-ho/tmp/cache/assets/sprockets/v3.0/cc/ccoLN44Dd-Wg1zi_BDEXZ0WjftNbo3r1Gz1jfV7tmvA.cache):
+Completed 500 Internal Server Error in 225ms (ActiveRecord: 0.0ms)
+
+
+    4:     <title>TallyHo</title>
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:48 -0400
+  
+    5:     <%= csrf_meta_tags %>
+Processing by DashboardController#index as HTML
+ActionView::Template::Error (Permission denied @ utime_failed - C:/Users/kieb2673/Desktop/tally-ho/tmp/cache/assets/sprockets/v3.0/OG/OG3qXDkgfrXcwNoQMEHAZP7Ema_7-2ozBN3cXjATzOk.cache):
+    6: 
+Completed 200 OK in 311ms (Views: 295.8ms | ActiveRecord: 0.0ms)
+
+
+    4:     <title>TallyHo</title>
+    7:     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:48 -0400
+Completed 200 OK in 255ms (Views: 228.4ms | ActiveRecord: 0.0ms)
+
+
+    5:     <%= csrf_meta_tags %>
+  Rendering dashboard/index.html.erb within layouts/application
+    8:     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+Processing by DashboardController#index as HTML
+    6: 
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:48 -0400
+    9:   </head>
+    7:     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+Processing by DashboardController#index as HTML
+   10: 
+  Rendering dashboard/index.html.erb within layouts/application
+    8:     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+    9:   </head>
+app/views/layouts/application.html.erb:7:in `_app_views_layouts_application_html_erb__172299175_88010832'
+  Rendering dashboard/index.html.erb within layouts/application
+   10: 
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+  
+Completed 200 OK in 339ms (Views: 321.3ms | ActiveRecord: 0.0ms)
+
+
+app/views/layouts/application.html.erb:7:in `_app_views_layouts_application_html_erb__172299175_88271052'
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+Processing by DashboardController#index as HTML
+Completed 200 OK in 462ms (Views: 450.5ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+Processing by DashboardController#index as HTML
+Completed 200 OK in 459ms (Views: 444.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 284ms (Views: 235.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+Processing by DashboardController#index as HTML
+Completed 200 OK in 241ms (Views: 223.4ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+Processing by DashboardController#index as HTML
+Completed 200 OK in 202ms (Views: 186.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+  Rendering dashboard/index.html.erb within layouts/application
+Processing by DashboardController#index as HTML
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 234ms (Views: 217.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+Processing by DashboardController#index as HTML
+Completed 200 OK in 258ms (Views: 244.1ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+Processing by DashboardController#index as HTML
+Completed 200 OK in 210ms (Views: 194.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 249ms (Views: 224.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:49 -0400
+Processing by DashboardController#index as HTML
+Completed 200 OK in 254ms (Views: 239.4ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:50 -0400
+Completed 200 OK in 202ms (Views: 187.1ms | ActiveRecord: 0.0ms)
+
+
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:50 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 242ms (Views: 225.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:50 -0400
+Processing by DashboardController#index as HTML
+Completed 200 OK in 238ms (Views: 223.8ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:50 -0400
+Completed 200 OK in 191ms (Views: 177.3ms | ActiveRecord: 0.0ms)
+
+
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:50 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 230ms (Views: 213.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:50 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+Completed 200 OK in 251ms (Views: 235.7ms | ActiveRecord: 0.0ms)
+
+
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 201ms (Views: 176.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:50 -0400
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:50 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 226ms (Views: 210.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:50 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 500 Internal Server Error in 524ms (ActiveRecord: 0.0ms)
+
+
+Completed 200 OK in 486ms (Views: 452.2ms | ActiveRecord: 0.0ms)
+
+
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout
+  
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:51 -0400
+ActionView::Template::Error (Permission denied @ utime_failed - C:/Users/kieb2673/Desktop/tally-ho/tmp/cache/assets/sprockets/v3.0/K3/K3OnUKM9YUYMrkyc1gCpg3KL4qqPzLbQ5QBK4GiDmBs.cache):
+Processing by DashboardController#index as HTML
+     5:     <%= csrf_meta_tags %>
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout
+     6: 
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (6.0ms)
+     7:     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  Rendering dashboard/index.html.erb within layouts/application
+     8:     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+     9:   </head>
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (5.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+Completed 200 OK in 1384ms (Views: 1366.6ms | ActiveRecord: 0.0ms)
+
+
+    10: 
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+    11:   <body>
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:52 -0400
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.0ms)
+  
+Processing by DashboardController#index as HTML
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+app/views/layouts/application.html.erb:8:in `_app_views_layouts_application_html_erb__172299175_85970604'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+Completed 200 OK in 1373ms (Views: 1358.7ms | ActiveRecord: 0.0ms)
+
+
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (1882.2ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (1366.1ms)
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:53 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 1897ms (Views: 1881.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:55 -0400
+Processing by DashboardController#index as HTML
+Completed 200 OK in 2620ms (Views: 2605.1ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:55 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 1070ms (Views: 1019.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:56 -0400
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:56 -0400
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:56 -0400
+Processing by DashboardController#index as HTML
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+Completed 200 OK in 1088ms (Views: 1073.9ms | ActiveRecord: 0.0ms)
+
+
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendering dashboard/index.html.erb within layouts/application
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:56 -0400
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 186ms (ActiveRecord: 0.0ms)
+
+
+  
+ActionView::Template::Error (Permission denied @ utime_failed - C:/Users/kieb2673/Desktop/tally-ho/tmp/cache/assets/sprockets/v3.0/qP/qPmv5snMrDw830S6hSICDcnIy7kVEWoFKXhGKT38lG4.cache):
+    4:     <title>TallyHo</title>
+  Rendering dashboard/index.html.erb within layouts/application
+    5:     <%= csrf_meta_tags %>
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+    6: 
+    7:     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+Completed 200 OK in 306ms (Views: 281.9ms | ActiveRecord: 0.0ms)
+
+
+    8:     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    9:   </head>
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:57 -0400
+   10: 
+Processing by DashboardController#index as HTML
+Completed 200 OK in 276ms (Views: 246.6ms | ActiveRecord: 0.0ms)
+
+
+  
+app/views/layouts/application.html.erb:7:in `_app_views_layouts_application_html_erb__172299175_86512152'
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:57 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+Completed 200 OK in 320ms (Views: 302.2ms | ActiveRecord: 0.0ms)
+
+
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:57 -0400
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 350ms (Views: 335.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:57 -0400
+Completed 200 OK in 255ms (Views: 197.1ms | ActiveRecord: 0.0ms)
+
+
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:57 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 259ms (Views: 236.2ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:57 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 249ms (Views: 232.9ms | ActiveRecord: 0.0ms)
+
+
+Completed 200 OK in 194ms (Views: 180.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:57 -0400
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:57 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 252ms (Views: 229.1ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:57 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 245ms (Views: 228.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:58 -0400
+Completed 200 OK in 233ms (Views: 199.3ms | ActiveRecord: 0.0ms)
+
+
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:58 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 239ms (Views: 215.3ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:58 -0400
+Processing by DashboardController#index as HTML
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (7.0ms)
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+Completed 200 OK in 958ms (Views: 942.9ms | ActiveRecord: 0.0ms)
+
+
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.0ms)
+Completed 200 OK in 1140ms (Views: 1124.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:59 -0400
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:56:59 -0400
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+Processing by DashboardController#index as HTML
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (855.1ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 1338ms (Views: 1090.9ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:57:00 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 1868ms (Views: 1843.8ms | ActiveRecord: 0.0ms)
+
+
+Completed 200 OK in 1835ms (Views: 1629.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:57:01 -0400
+Started GET "/dashboard" for ::1 at 2016-09-26 19:57:01 -0400
+Processing by DashboardController#index as HTML
+Started GET "/dashboard" for ::1 at 2016-09-26 19:57:01 -0400
+Processing by DashboardController#index as HTML
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 1132ms (Views: 898.0ms | ActiveRecord: 0.0ms)
+
+
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 19:57:01 -0400
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 306ms (Views: 283.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:57:01 -0400
+Completed 200 OK in 290ms (Views: 243.7ms | ActiveRecord: 0.0ms)
+
+
+Processing by DashboardController#index as HTML
+Completed 200 OK in 292ms (Views: 267.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:57:01 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 754ms (Views: 736.4ms | ActiveRecord: 0.0ms)
+
+
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (6.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (791.1ms)
+Completed 200 OK in 1343ms (Views: 1093.2ms | ActiveRecord: 0.0ms)
+
+
+Completed 200 OK in 1441ms (Views: 1425.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:57:03 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 726ms (Views: 696.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/create-example-class" for ::1 at 2016-09-26 19:57:15 -0400
+Processing by DashboardController#example_new as HTML
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "courses" ("name", "number", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "Some Class"], ["number", 1], ["created_at", 2016-09-26 23:57:15 UTC], ["updated_at", 2016-09-26 23:57:15 UTC]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+Redirected to http://localhost:3000/dashboard
+Completed 302 Found in 35ms (ActiveRecord: 6.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 19:57:15 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  Rendered dashboard/index.html.erb within layouts/application (0.0ms)
+Completed 200 OK in 83ms (Views: 71.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 20:00:20 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 134ms (Views: 101.2ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 20:07:12 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (8.0ms)
+Completed 200 OK in 93ms (Views: 77.8ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/delete-course/" for ::1 at 2016-09-26 20:07:14 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/delete-course"):
+  
+actionpack (5.0.0.1) lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+web-console (3.3.1) lib/web_console/middleware.rb:131:in `call_app'
+web-console (3.3.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.0.0.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `block in tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `tagged'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/request_id.rb:24:in `call'
+rack (2.0.1) lib/rack/method_override.rb:22:in `call'
+rack (2.0.1) lib/rack/runtime.rb:22:in `call'
+activesupport (5.0.0.1) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/static.rb:136:in `call'
+rack (2.0.1) lib/rack/sendfile.rb:111:in `call'
+railties (5.0.0.1) lib/rails/engine.rb:522:in `call'
+puma (3.6.0) lib/puma/configuration.rb:225:in `call'
+puma (3.6.0) lib/puma/server.rb:578:in `handle_request'
+puma (3.6.0) lib/puma/server.rb:415:in `process_client'
+puma (3.6.0) lib/puma/server.rb:275:in `block in run'
+puma (3.6.0) lib/puma/thread_pool.rb:116:in `call'
+puma (3.6.0) lib/puma/thread_pool.rb:116:in `block in spawn_thread'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered collection of C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_route.html.erb [3 times] (5.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (16.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (914.1ms)
+Started GET "/delete-course/" for ::1 at 2016-09-26 20:08:37 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/delete-course"):
+  
+actionpack (5.0.0.1) lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+web-console (3.3.1) lib/web_console/middleware.rb:131:in `call_app'
+web-console (3.3.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.0.0.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `block in tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `tagged'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/request_id.rb:24:in `call'
+rack (2.0.1) lib/rack/method_override.rb:22:in `call'
+rack (2.0.1) lib/rack/runtime.rb:22:in `call'
+activesupport (5.0.0.1) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/static.rb:136:in `call'
+rack (2.0.1) lib/rack/sendfile.rb:111:in `call'
+railties (5.0.0.1) lib/rails/engine.rb:522:in `call'
+puma (3.6.0) lib/puma/configuration.rb:225:in `call'
+puma (3.6.0) lib/puma/server.rb:578:in `handle_request'
+puma (3.6.0) lib/puma/server.rb:415:in `process_client'
+puma (3.6.0) lib/puma/server.rb:275:in `block in run'
+puma (3.6.0) lib/puma/thread_pool.rb:116:in `call'
+puma (3.6.0) lib/puma/thread_pool.rb:116:in `block in spawn_thread'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered collection of C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_route.html.erb [3 times] (2.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (902.1ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 20:08:43 -0400
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/controllers/dashboard_controller.rb:14: syntax error, unexpected '-', expecting ';' or '\n'
+  def delete-course
+             ^
+C:/Users/kieb2673/Desktop/tally-ho/app/controllers/dashboard_controller.rb:19: syntax error, unexpected keyword_end, expecting end-of-input):
+  
+app/controllers/dashboard_controller.rb:14: syntax error, unexpected '-', expecting ';' or '\n'
+app/controllers/dashboard_controller.rb:19: syntax error, unexpected keyword_end, expecting end-of-input
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (684.1ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 20:09:15 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (12.0ms)
+Completed 200 OK in 95ms (Views: 76.3ms | ActiveRecord: 2.0ms)
+
+
+Started GET "/delete-course/" for ::1 at 2016-09-26 20:09:28 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/delete-course"):
+  
+actionpack (5.0.0.1) lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+web-console (3.3.1) lib/web_console/middleware.rb:131:in `call_app'
+web-console (3.3.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.0.0.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `block in tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `tagged'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/request_id.rb:24:in `call'
+rack (2.0.1) lib/rack/method_override.rb:22:in `call'
+rack (2.0.1) lib/rack/runtime.rb:22:in `call'
+activesupport (5.0.0.1) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/static.rb:136:in `call'
+rack (2.0.1) lib/rack/sendfile.rb:111:in `call'
+railties (5.0.0.1) lib/rails/engine.rb:522:in `call'
+puma (3.6.0) lib/puma/configuration.rb:225:in `call'
+puma (3.6.0) lib/puma/server.rb:578:in `handle_request'
+puma (3.6.0) lib/puma/server.rb:415:in `process_client'
+puma (3.6.0) lib/puma/server.rb:275:in `block in run'
+puma (3.6.0) lib/puma/thread_pool.rb:116:in `call'
+puma (3.6.0) lib/puma/thread_pool.rb:116:in `block in spawn_thread'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered collection of C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_route.html.erb [3 times] (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (894.1ms)
+Started GET "/delete-course/" for ::1 at 2016-09-26 20:10:09 -0400
+  
+ActionController::RoutingError (No route matches [GET] "/delete-course"):
+  
+actionpack (5.0.0.1) lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+web-console (3.3.1) lib/web_console/middleware.rb:131:in `call_app'
+web-console (3.3.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.0.0.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `block in tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `tagged'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/request_id.rb:24:in `call'
+rack (2.0.1) lib/rack/method_override.rb:22:in `call'
+rack (2.0.1) lib/rack/runtime.rb:22:in `call'
+activesupport (5.0.0.1) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/static.rb:136:in `call'
+rack (2.0.1) lib/rack/sendfile.rb:111:in `call'
+railties (5.0.0.1) lib/rails/engine.rb:522:in `call'
+puma (3.6.0) lib/puma/configuration.rb:225:in `call'
+puma (3.6.0) lib/puma/server.rb:578:in `handle_request'
+puma (3.6.0) lib/puma/server.rb:415:in `process_client'
+puma (3.6.0) lib/puma/server.rb:275:in `block in run'
+puma (3.6.0) lib/puma/thread_pool.rb:116:in `call'
+puma (3.6.0) lib/puma/thread_pool.rb:116:in `block in spawn_thread'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered collection of C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_route.html.erb [3 times] (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (1.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (907.1ms)
+Started GET "/dashboard" for ::1 at 2016-09-26 20:10:11 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 713ms (Views: 508.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/delete-course/2" for ::1 at 2016-09-26 20:10:15 -0400
+Processing by DashboardController#delete_course as HTML
+  Parameters: {"id"=>"2"}
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT  "courses".* FROM "courses" WHERE "courses"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[31mDELETE FROM "courses" WHERE "courses"."id" = ?[0m  [["id", 2]]
+  [1m[35m (3.0ms)[0m  [1m[36mcommit transaction[0m
+Redirected to http://localhost:3000/dashboard
+Completed 302 Found in 27ms (ActiveRecord: 5.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-26 20:10:15 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 133ms (Views: 107.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/" for ::1 at 2016-09-28 19:09:26 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Rails::WelcomeController#index as HTML
+  Parameters: {"internal"=>true}
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/railties-5.0.0.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/railties-5.0.0.1/lib/rails/templates/rails/welcome/index.html.erb (5.0ms)
+Completed 200 OK in 63ms (Views: 32.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:09:36 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (7.0ms)
+Completed 200 OK in 367ms (Views: 353.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:28:02 -0400
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+  get "/example_count/:course/:user", to "dashboard#create_counter"
+                                          ^):
+  
+config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (617.1ms)
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:29:46 -0400
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+  get "/example_count/:course/:user", to "dashboard#create_counter"
+                                          ^):
+  
+config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (607.1ms)
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:31:03 -0400
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+...nt/:courses_id/:users_id", to "dashboard#create_counter"
+...                               ^):
+  
+config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (601.1ms)
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:31:32 -0400
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+...nt/:courses_id/:users_id", to "dashboard#create_counter"
+...                               ^):
+  
+config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (5.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (609.1ms)
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:33:01 -0400
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+...nt/:courses_id/:users_id", to "dashboard#create_counter"
+...                               ^):
+  
+config/routes.rb:9: syntax error, unexpected tSTRING_BEG, expecting keyword_do or '{' or '('
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (606.1ms)
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:33:18 -0400
+Processing by DashboardController#create_counter as HTML
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:33:18 UTC], ["updated_at", 2016-09-28 23:33:18 UTC]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 22ms (Views: 1.5ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:34:11 -0400
+Processing by DashboardController#create_counter as HTML
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:34:11 UTC], ["updated_at", 2016-09-28 23:34:11 UTC]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 15ms (Views: 2.0ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:34:12 -0400
+Processing by DashboardController#create_counter as HTML
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:34:12 UTC], ["updated_at", 2016-09-28 23:34:12 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 17ms (Views: 3.8ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:34:12 -0400
+Processing by DashboardController#create_counter as HTML
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:34:12 UTC], ["updated_at", 2016-09-28 23:34:12 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 21ms (Views: 5.1ms | ActiveRecord: 9.0ms)
+
+
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:34:12 -0400
+Processing by DashboardController#create_counter as HTML
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:34:12 UTC], ["updated_at", 2016-09-28 23:34:12 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 17ms (Views: 1.8ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:34:12 -0400
+Processing by DashboardController#create_counter as HTML
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (1.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:34:12 UTC], ["updated_at", 2016-09-28 23:34:12 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 25ms (Views: 6.9ms | ActiveRecord: 9.0ms)
+
+
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:34:12 -0400
+Processing by DashboardController#create_counter as HTML
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:34:12 UTC], ["updated_at", 2016-09-28 23:34:12 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 16ms (Views: 3.3ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:34:13 -0400
+Processing by DashboardController#create_counter as HTML
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (3.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:34:13 UTC], ["updated_at", 2016-09-28 23:34:13 UTC]]
+  [1m[35m (8.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 29ms (Views: 4.7ms | ActiveRecord: 12.0ms)
+
+
+Started GET "/example_count/1/1" for ::1 at 2016-09-28 19:34:13 -0400
+Processing by DashboardController#create_counter as HTML
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:34:13 UTC], ["updated_at", 2016-09-28 23:34:13 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 18ms (Views: 4.9ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:42:16 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (8.0ms)
+Completed 200 OK in 85ms (Views: 68.3ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:19 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:19 UTC], ["updated_at", 2016-09-28 23:42:19 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 31ms (Views: 6.8ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:28 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:28 UTC], ["updated_at", 2016-09-28 23:42:28 UTC]]
+  [1m[35m (8.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 20ms (Views: 4.7ms | ActiveRecord: 9.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:33 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (3.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:33 UTC], ["updated_at", 2016-09-28 23:42:33 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 29ms (Views: 10.2ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:34 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (1.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:34 UTC], ["updated_at", 2016-09-28 23:42:34 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 17ms (Views: 5.3ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:35 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:35 UTC], ["updated_at", 2016-09-28 23:42:35 UTC]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 12ms (Views: 5.7ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:35 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:35 UTC], ["updated_at", 2016-09-28 23:42:35 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 19ms (Views: 6.4ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:35 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:35 UTC], ["updated_at", 2016-09-28 23:42:35 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 19ms (Views: 8.0ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:35 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (1.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:35 UTC], ["updated_at", 2016-09-28 23:42:35 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 23ms (Views: 9.7ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:36 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:36 UTC], ["updated_at", 2016-09-28 23:42:36 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 19ms (Views: 5.8ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:36 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:36 UTC], ["updated_at", 2016-09-28 23:42:36 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 19ms (Views: 6.7ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:36 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:36 UTC], ["updated_at", 2016-09-28 23:42:36 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 19ms (Views: 6.8ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:36 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (1.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:36 UTC], ["updated_at", 2016-09-28 23:42:36 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 24ms (Views: 8.8ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:36 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:36 UTC], ["updated_at", 2016-09-28 23:42:36 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 13ms (Views: 5.1ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:37 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:37 UTC], ["updated_at", 2016-09-28 23:42:37 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 23ms (Views: 9.6ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:37 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:37 UTC], ["updated_at", 2016-09-28 23:42:37 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 14ms (Views: 5.8ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:38 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:38 UTC], ["updated_at", 2016-09-28 23:42:38 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 20ms (Views: 6.5ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:38 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:38 UTC], ["updated_at", 2016-09-28 23:42:38 UTC]]
+  [1m[35m (3.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 11ms (Views: 4.9ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:38 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:38 UTC], ["updated_at", 2016-09-28 23:42:38 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 26ms (Views: 10.0ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:38 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (1.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:38 UTC], ["updated_at", 2016-09-28 23:42:38 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 23ms (Views: 11.8ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:38 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:38 UTC], ["updated_at", 2016-09-28 23:42:38 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 27ms (Views: 11.6ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:38 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:38 UTC], ["updated_at", 2016-09-28 23:42:38 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 24ms (Views: 12.2ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:38 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:38 UTC], ["updated_at", 2016-09-28 23:42:38 UTC]]
+  [1m[35m (3.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 14ms (Views: 7.3ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:42:39 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (1.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:42:39 UTC], ["updated_at", 2016-09-28 23:42:39 UTC]]
+  [1m[35m (3.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 18ms (Views: 10.4ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:45:10 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 77ms (Views: 63.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:45:14 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 94ms (Views: 73.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:45:16 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:45:16 UTC], ["updated_at", 2016-09-28 23:45:16 UTC]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 18ms (Views: 10.1ms | ActiveRecord: 3.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:45:40 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 107ms (Views: 85.1ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:45:41 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (1.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:45:41 UTC], ["updated_at", 2016-09-28 23:45:41 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 31ms (Views: 17.5ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:45:42 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:45:42 UTC], ["updated_at", 2016-09-28 23:45:42 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 28ms (Views: 16.0ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:45:42 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:45:42 UTC], ["updated_at", 2016-09-28 23:45:42 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 28ms (Views: 14.8ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:45:43 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:45:43 UTC], ["updated_at", 2016-09-28 23:45:43 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 22ms (Views: 11.6ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:45:43 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:45:43 UTC], ["updated_at", 2016-09-28 23:45:43 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 29ms (Views: 15.3ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:45:43 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:45:43 UTC], ["updated_at", 2016-09-28 23:45:43 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 26ms (Views: 10.9ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:46:24 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 98ms (Views: 77.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:46:26 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:46:26 UTC], ["updated_at", 2016-09-28 23:46:26 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 30ms (Views: 16.5ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:46:26 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:46:26 UTC], ["updated_at", 2016-09-28 23:46:26 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 34ms (Views: 20.2ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:46:27 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:46:27 UTC], ["updated_at", 2016-09-28 23:46:27 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 27ms (Views: 15.3ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:46:27 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:46:27 UTC], ["updated_at", 2016-09-28 23:46:27 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 22ms (Views: 10.9ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:46:27 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:46:27 UTC], ["updated_at", 2016-09-28 23:46:27 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 25ms (Views: 13.5ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:46:27 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:46:27 UTC], ["updated_at", 2016-09-28 23:46:27 UTC]]
+  [1m[35m (3.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 22ms (Views: 12.4ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:47:59 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:47:59 UTC], ["updated_at", 2016-09-28 23:47:59 UTC]]
+  [1m[35m (8.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 40ms (Views: 23.7ms | ActiveRecord: 10.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:47:59 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:47:59 UTC], ["updated_at", 2016-09-28 23:47:59 UTC]]
+  [1m[35m (8.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 28ms (Views: 11.1ms | ActiveRecord: 10.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:47:59 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:47:59 UTC], ["updated_at", 2016-09-28 23:47:59 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 24ms (Views: 14.0ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:47:59 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:48:00 UTC], ["updated_at", 2016-09-28 23:48:00 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 28ms (Views: 14.3ms | ActiveRecord: 9.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:48:00 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:48:00 UTC], ["updated_at", 2016-09-28 23:48:00 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 27ms (Views: 14.4ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:48:00 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:48:00 UTC], ["updated_at", 2016-09-28 23:48:00 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 29ms (Views: 16.8ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:48:00 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:48:00 UTC], ["updated_at", 2016-09-28 23:48:00 UTC]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 34ms (Views: 21.0ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:48:00 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:48:00 UTC], ["updated_at", 2016-09-28 23:48:00 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 29ms (Views: 16.2ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:48:01 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:48:01 UTC], ["updated_at", 2016-09-28 23:48:01 UTC]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 41ms (Views: 19.4ms | ActiveRecord: 11.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:48:01 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:48:01 UTC], ["updated_at", 2016-09-28 23:48:01 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 26ms (Views: 12.6ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:48:01 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:48:01 UTC], ["updated_at", 2016-09-28 23:48:01 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 31ms (Views: 18.3ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 19:48:02 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-28 23:48:02 UTC], ["updated_at", 2016-09-28 23:48:02 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 29ms (Views: 13.8ms | ActiveRecord: 9.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:54:00 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 119ms (Views: 102.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:54:15 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 108ms (Views: 89.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:02 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 127ms (Views: 110.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:04 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 90ms (Views: 65.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:04 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 112ms (Views: 88.0ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:05 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 102ms (Views: 68.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:05 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 77ms (Views: 65.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:05 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 68ms (Views: 57.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:05 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 69ms (Views: 58.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:06 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 69ms (Views: 59.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:06 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 86ms (Views: 71.2ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:46 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 110ms (Views: 89.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:47 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 92ms (Views: 67.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:49 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 88ms (Views: 64.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:55:59 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 105ms (Views: 87.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:56:33 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 121ms (Views: 96.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:58:03 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 120ms (Views: 104.6ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:58:38 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 118ms (Views: 95.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:58:39 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 84ms (Views: 62.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:58:40 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 91ms (Views: 67.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:59:20 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 115ms (Views: 101.0ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:59:21 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 82ms (Views: 60.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:59:22 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 90ms (Views: 68.4ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 19:59:49 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 174ms (Views: 146.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 20:01:17 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 131ms (Views: 105.1ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 20:01:54 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 130ms (Views: 108.1ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:01:59 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:01:59 UTC], ["updated_at", 2016-09-29 00:01:59 UTC]]
+  [1m[35m (2.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 27ms (Views: 18.2ms | ActiveRecord: 4.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:01:59 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:01:59 UTC], ["updated_at", 2016-09-29 00:01:59 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 28ms (Views: 14.7ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:01:59 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:01:59 UTC], ["updated_at", 2016-09-29 00:01:59 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 34ms (Views: 21.0ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:01:59 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:01:59 UTC], ["updated_at", 2016-09-29 00:01:59 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 35ms (Views: 21.8ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:00 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:00 UTC], ["updated_at", 2016-09-29 00:02:00 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 28ms (Views: 15.0ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:00 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:00 UTC], ["updated_at", 2016-09-29 00:02:00 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 32ms (Views: 18.6ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:00 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:00 UTC], ["updated_at", 2016-09-29 00:02:00 UTC]]
+  [1m[35m (9.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 37ms (Views: 17.5ms | ActiveRecord: 11.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:00 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:00 UTC], ["updated_at", 2016-09-29 00:02:00 UTC]]
+  [1m[35m (15.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 35ms (Views: 14.0ms | ActiveRecord: 16.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:00 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:00 UTC], ["updated_at", 2016-09-29 00:02:00 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 51ms (Views: 30.9ms | ActiveRecord: 9.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:01 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:01 UTC], ["updated_at", 2016-09-29 00:02:01 UTC]]
+  [1m[35m (6.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 51ms (Views: 36.0ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:01 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (1.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (2.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:01 UTC], ["updated_at", 2016-09-29 00:02:01 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 43ms (Views: 28.2ms | ActiveRecord: 8.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:01 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:01 UTC], ["updated_at", 2016-09-29 00:02:01 UTC]]
+  [1m[35m (5.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 26ms (Views: 14.0ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:01 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (3.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:01 UTC], ["updated_at", 2016-09-29 00:02:01 UTC]]
+  [1m[35m (7.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (1.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 57ms (Views: 36.7ms | ActiveRecord: 11.0ms)
+
+
+Started GET "/example-count/1/1" for ::1 at 2016-09-28 20:02:02 -0400
+Processing by DashboardController#create_counter as */*
+  Parameters: {"courses_id"=>"1", "users_id"=>"1"}
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35mSQL (3.0ms)[0m  [1m[32mINSERT INTO "counters" ("courses_id", "users_id", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["courses_id", 1], ["users_id", 1], ["created_at", 2016-09-29 00:02:02 UTC], ["updated_at", 2016-09-29 00:02:02 UTC]]
+  [1m[35m (4.0ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mCounter Load (0.0ms)[0m  [1m[34mSELECT "counters".* FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+Completed 200 OK in 32ms (Views: 18.2ms | ActiveRecord: 7.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 20:03:07 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (1.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (1.0ms)
+Completed 200 OK in 121ms (Views: 99.2ms | ActiveRecord: 1.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 20:03:34 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (2.0ms)
+Completed 200 OK in 129ms (Views: 106.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-09-28 20:03:57 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (3.0ms)
+Completed 200 OK in 117ms (Views: 101.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-10-03 19:43:34 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  Rendered dashboard/index.html.erb within layouts/application (8.0ms)
+Completed 200 OK in 349ms (Views: 323.2ms | ActiveRecord: 2.0ms)
+
+
+Started GET "/dashboard" for ::1 at 2016-10-03 19:53:33 -0400
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (653.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 19:55:15 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "course_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (7.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (656.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 19:55:28 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 1ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (630.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 19:55:35 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 4ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (5.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (636.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 19:55:38 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (634.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 19:55:52 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (633.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 19:56:03 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (631.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 19:57:07 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (636.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 19:57:28 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 5ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (650.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 20:07:35 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: :"courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (650.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 20:15:13 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (4.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (2.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (633.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 20:19:27 -0400
+Processing by DashboardController#index as HTML
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.0ms)
+
+
+  
+SyntaxError (C:/Users/kieb2673/Desktop/tally-ho/app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+  has_many: :counters, foreign_key: "courses_id"
+           ^):
+  
+app/models/course.rb:2: syntax error, unexpected ':', expecting keyword_end
+app/controllers/dashboard_controller.rb:3:in `index'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (5.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/diagnostics.html.erb within rescues/layout (631.1ms)
+Started GET "/dashboard" for ::1 at 2016-10-03 20:21:03 -0400
+Processing by DashboardController#index as HTML
+  Rendering dashboard/index.html.erb within layouts/application
+  [1m[36mCourse Load (0.0ms)[0m  [1m[34mSELECT "courses".* FROM "courses"[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "counters" WHERE "counters"."courses_id" = ?[0m  [["courses_id", 1]]
+  Rendered dashboard/index.html.erb within layouts/application (30.0ms)
+Completed 500 Internal Server Error in 278ms (ActiveRecord: 2.0ms)
+
+
+  
+ActionView::Template::Error (Invalid CSS after "@": expected identifier, was "@keyframes chan..."):
+     5:     <%= csrf_meta_tags %>
+     6:     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+     7: 
+     8:     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+     9:     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    10:   </head>
+    11: 
+  
+app/assets/stylesheets/dashboard.scss:56
+app/views/layouts/application.html.erb:8:in `_app_views_layouts_application_html_erb__93885683_70677312'
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_source.html.erb (7.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (3.0ms)
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (1.0ms)
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/template_error.html.erb within rescues/layout (640.1ms)
+Started GET "/" for 172.17.0.1 at 2016-10-05 23:13:06 +0000
+Cannot render console from 172.17.0.1! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Processing by Rails::WelcomeController#index as HTML
+  Parameters: {"internal"=>true}
+  Rendering /usr/local/bundle/gems/railties-5.0.0.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered /usr/local/bundle/gems/railties-5.0.0.1/lib/rails/templates/rails/welcome/index.html.erb (3.3ms)
+Completed 200 OK in 15ms (Views: 6.7ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/todos" for 172.17.0.1 at 2016-10-05 23:13:10 +0000
+Cannot render console from 172.17.0.1! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  
+ActionController::RoutingError (No route matches [GET] "/todos"):
+  
+actionpack (5.0.0.1) lib/action_dispatch/middleware/debug_exceptions.rb:53:in `call'
+web-console (3.3.1) lib/web_console/middleware.rb:131:in `call_app'
+web-console (3.3.1) lib/web_console/middleware.rb:20:in `block in call'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.3.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.0.0.1) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `block in tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.0.0.1) lib/active_support/tagged_logging.rb:70:in `tagged'
+railties (5.0.0.1) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.0) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/request_id.rb:24:in `call'
+rack (2.0.1) lib/rack/method_override.rb:22:in `call'
+rack (2.0.1) lib/rack/runtime.rb:22:in `call'
+activesupport (5.0.0.1) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.0.0.1) lib/action_dispatch/middleware/static.rb:136:in `call'
+rack (2.0.1) lib/rack/sendfile.rb:111:in `call'
+railties (5.0.0.1) lib/rails/engine.rb:522:in `call'
+puma (3.6.0) lib/puma/configuration.rb:225:in `call'
+puma (3.6.0) lib/puma/server.rb:578:in `handle_request'
+puma (3.6.0) lib/puma/server.rb:415:in `process_client'
+puma (3.6.0) lib/puma/server.rb:275:in `block in run'
+puma (3.6.0) lib/puma/thread_pool.rb:116:in `block in spawn_thread'
+  Rendering /usr/local/bundle/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout
+  Rendering /usr/local/bundle/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb
+  Rendered /usr/local/bundle/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.0ms)
+  Rendered collection of /usr/local/bundle/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_route.html.erb [4 times] (1.9ms)
+  Rendered /usr/local/bundle/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (5.2ms)
+  Rendering /usr/local/bundle/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb
+  Rendered /usr/local/bundle/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (0.9ms)
+  Rendered /usr/local/bundle/gems/actionpack-5.0.0.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (35.4ms)

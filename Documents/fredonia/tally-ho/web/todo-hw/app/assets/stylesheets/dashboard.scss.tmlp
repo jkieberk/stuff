@@ -1,0 +1,27 @@
+// Place all the styles related to the dashboard controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+html, body {
+  background-color: #9FBCBF;
+  font-family: 'Lato', sans-serif;
+
+}
+
+table{
+  width: 100%;
+  border-collapse:collapse;
+}
+tr{
+  border-radius: 3px;
+  font-size: 22px;
+  width: 90%;
+  background-color: white;
+}
+
+td{
+  padding: 20px;
+}
+
+table a{
+  text-decoration:none;
+}

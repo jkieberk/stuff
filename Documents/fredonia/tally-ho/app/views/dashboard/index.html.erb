@@ -1,0 +1,30 @@
+<div id="#dashboard">
+
+<section>
+  <h1>DASH BOARD</h1>
+</section>
+<section>
+  <% @courses.each do |course| %>
+  <div class="course">
+    <div class="name"><%= course.name %></div>
+    <div class="number"><%= course.number %></div>
+    <div class="stat" id="#tally-<%= course.id %>"><%= course.counters.size %> People</div>
+    <div class="actions"><button onclick="tally(<%= course.id %>)">+</button></div>
+  </div>
+  <% end %>
+</div>
+</section>
+<div class="text-center">
+  <a href="/add">Add New Course</a>
+</div>
+</div>
+<script type="text/javascript">
+  function tally(id)
+  {
+      $.get('example-count/' + id  + '/1')
+      .success(function(counters){
+        $('#tally-' + id).html(counters.length + " People");
+      })
+      .error(console.error);
+  }
+</script>

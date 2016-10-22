@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Pictures</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Href</th>
+      <th>Description</th>
+      <th>Order</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @pictures.each do |picture| %>
+      <tr>
+        <td><%= picture.name %></td>
+        <td><%= picture.href %></td>
+        <td><%= picture.description %></td>
+        <td><%= picture.order %></td>
+        <td><%= link_to 'Show', picture %></td>
+        <td><%= link_to 'Edit', edit_picture_path(picture) %></td>
+        <td><%= link_to 'Destroy', picture, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<section id="picture-view">
+  <% @pictures.each do |picture| %>
+  <div class="pic-container">
+
+    <img src="<%= picture.href %>" alt="" />
+    <div class="pic-title">
+      <%= picture.name %>
+    </div>
+    <div class="pic-description">
+      <%= picture.description %>
+    </div>
+  </div>
+  <% end %>
+</section>
+
+
+
+
+<br>
+
+<%= link_to 'New Picture', new_picture_path %>

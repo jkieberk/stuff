@@ -1,0 +1,97 @@
+Script started on Sat 01 Oct 2016 01:34:20 AM EDT
+justin:[37;1m~/dev/431/hw2[0m
+$ cat 
+cops         cops.c       .cops.c.swp  typescript   
+justin:[37;1m~/dev/431/hw2[0m
+$ cat cops.c 
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+int speed = 0;
+int checkFlag = 1;
+void *Cop(void *threadid)
+{	
+	srand(time(NULL));
+	int i= 0;
+	int speedLimit;
+	int tickets = 0;
+	while( i < 10)
+	{
+		if( checkFlag == 0)
+		{
+			speedLimit = rand() % 100;  
+			if( speed > speedLimit + 9)
+			{
+				tickets++;
+			}
+			i++;
+			printf("Speed Limit: %d Speed:%d\n", speedLimit, speed);
+			checkFlag = 1;
+		}
+	}
+	printf("Tickets Given: %d\n", tickets);
+	pthread_exit(NULL);
+}
+
+void *Car()
+{
+	srand(time(NULL));
+	int i = 0;
+	while( i < 10 )
+	{
+		if(checkFlag)
+		{
+			speed = rand() % 100;  
+			i++;
+			checkFlag = 0;
+		}	
+	}
+   pthread_exit(NULL);
+}
+int main (int argc, char *argv[])
+{
+   pthread_t threads[2];
+   int rc;
+   long t;
+      printf("Starting Cars, Vrooooom!\n");
+      rc = pthread_create(&threads[t], NULL, Car , (void *)t);
+      rc = pthread_create(&threads[t], NULL, Cop , (void *)t);
+      if (rc){
+         printf("ERROR; return code from pthread_create() is %d\n", rc);
+         exit(-1);
+      }
+
+   /* Last thing that main() should do */
+   pthread_exit(NULL);
+}
+justin:[37;1m~/dev/431/hw2[0m
+$ ;[K[H[Jjustin:[37;1m~/dev/431/hw2[0m
+$ [20@(reverse-i-search)`':[Cg': rangerc': gcc writer.c -o writer[1@c[C[C[C[C[C[C[Creader.c -o reader[C[C[C[Cwriter.c -o writer[C[C[C[C[C[C[C[C[C[C[C[C[C[K[C[C[C[C[C[C[C[C[C[C[C[C[C-o writer[C[C[C[Creader.c -o reader[C[C[C[Cwriter.c -o writer[C[C[C[Creader.c -o reader[C[C[C[Cwriter.c -o writer[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cr[C[C[C[Creader.c -o  reader[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1Preader[23P$[C[13P./reader [C[C[4@vim reader.c[C[C[Cgcc reader.c -o  reader[C[C[14P./reader [C[C[4@vim reader.c[C[C[C[5P./writer[C[C[4Prm ages [C[Cls[Kgcc writer.c -o writer[C[Cls[K./writer [C[C[C[Cread[C[C[C[K[K[K[K[K[K[K[K[K[20@(reverse-i-search)`':[Cg': gcc writer.c -o writer[1@c[C[C[C[1@c[C[C[C[C[C[C[Creader.c -o  reader[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1Preader[C[7@failed [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1P[C[C[C[C[22Preverse-i-search)`g': rm ages $ rm ages [K[C[Cls[K./reader [C[Cvim reader.c [C[Cgcc reader.c -o reader[C[C[13P./reader [C[C[4@vim reader.c[C[C[Cgcc reader.c -o  reader[C[C[14P./reader [C[C[4@vim reader.c[C[C[C[5P./writer[C[C[4Prm ages [C[Cls[Kgcc writer.c -o writer[C[Cls[K./writer [C[C[C[Cread[C[C[C[C[C[C[Cwrit[C[C[C[C[Cls[Kgcc writer.c -o writer[C[Cls[Krm ages [Kges [K[C[C./writer[C[Cvim reader.c [C[C[4P./reader[C[C[Cgcc reader.c -o  reader[C[C[10Pvim reader.c [C[C[4P./reader[C[C[Cgcc reader.c -o reader[C[C[9Pvim reader.c [K[C[C[1P./reader [C[Cls[Krm ages [C[Cls[Krm ages [C[Cls[K./reader [C[Cvim reader.c [C[Cgcc reader.c -o reader[C[C[13P./reader [C[C[4@vim reader.c[C[C[Cgcc reader.c -o  reader[C[C[14P./reader [C[C[4@vim reader.c[C[C[C[5P./writer[C[C[4Prm ages [C[Cls[Kgcc writer.c -o writer[C[Cls[K./writer [C[C[C[Cread[C[C[C[C[C[C[Cwrit[C[C[C[C[Cls[Kgcc writer.c -o writer[C[Cls[Krm ages [K[C[C./writer[C[Cvim reader.c [C[C[4P./reader[C[C[Cgcc reader.c -o  reader[C[C[10Pvim reader.c [C[C[4P./reader[C[C[Cgcc reader.c -o reader[C[C[9Pvim reader.c [K[C[C[1P./reader [C[Cls[Krm ages [C[Cls[Krm ages [C[Cls[K./reader [C[Cvim reader.c [C[Cgcc reader.c -o reader[C[C[13P./reader [C[C[4@vim reader.c[C[C[Cgcc reader.c -o  reader[C[C[14P./reader [C[C[4@vim reader.c[C[C[C[5P./writer[C[C[4Prm ages [C[Cls[Kgcc writer.c -o writer[C[Cls[K./writer [C[C[C[Cread[C[C[C[C[C[K./reader [K$ ./reader [K[K[K[K[K[K[K[K[K[H[Jjustin:[37;1m~/dev/431/hw2[0m
+$ gcc cops.c -o cops -lpthread
+justin:[37;1m~/dev/431/hw2[0m
+$ ./cops 
+Starting Cars, Vrooooom!
+Speed Limit: 50 Speed:91
+Speed Limit: 47 Speed:23
+Speed Limit: 34 Speed:63
+Speed Limit: 10 Speed:11
+Speed Limit: 53 Speed:15
+Speed Limit: 67 Speed:55
+Speed Limit: 57 Speed:86
+Speed Limit: 6 Speed:20
+Speed Limit: 91 Speed:52
+Speed Limit: 68 Speed:7
+Tickets Given: 4
+justin:[37;1m~/dev/431/hw2[0m
+$ echo $user[K[K[K[KUSER
+justin
+justin:[37;1m~/dev/431/hw2[0m
+$ date
+Sat Oct  1 01:38:18 EDT 2016
+justin:[37;1m~/dev/431/hw2[0m
+$ [H[Jjustin:[37;1m~/dev/431/hw2[0m
+$ exit
+exit
+
+Script done on Sat 01 Oct 2016 01:38:33 AM EDT

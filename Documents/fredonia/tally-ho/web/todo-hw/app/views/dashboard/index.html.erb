@@ -1,0 +1,27 @@
+<div id="#dashboard">
+
+<section>
+  <h1>DASH BOARD</h1>
+</section>
+<section>
+  <% @courses.each do |course| %>
+  <div class="course">
+    <div class="name"><%= course.name %></div>
+    <div class="number"><%= course.number %></div>
+    <div class="stat"><%= course.counters.size %></div>
+    <div class="actions"><span>+</span></div>
+  </div>
+  <% end %>
+</div>
+</section>
+</div>
+<script type="text/javascript">
+  function tally(id)
+  {
+    $.get('example-count/' + id  + '/1')
+      .success(function(counters){
+        $('#tally-' + id).html('Tally ' + counters.length);
+      })
+      .error(console.error);
+  }
+</script>

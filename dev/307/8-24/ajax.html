@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+  </head>
+  <script
+			  src="https://code.jquery.com/jquery-3.1.0.min.js"
+			  integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="
+			  crossorigin="anonymous"></script>
+  <body>
+
+    $.get('141.238.204.159:3000/door_knobs.json')
+      .then(function(knobs){
+        users.forEach(knob => {
+          $('body').append('<h1>' + knob.shape + '</h1>')
+        })
+      }
+
+      )
+
+  </body>
+</html>

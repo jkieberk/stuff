@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="header">
+      <span>TODO</span>
+    </div>
+    <div id="content">
+      <div id="list">
+        <ul>
+          <% @todos.each do |todo| %>
+          <li class='item'><%= todo %></li>
+          <% end %>
+        </ul>
+      </div>
+      <form class="" action="index.html" method="post">
+        <input type="text" name="name" placeholder="Enter Todo Here">
+        <button type="submit" name="button">Submit</button>
+      </form>
+    </div>
+  </body>
+</html>

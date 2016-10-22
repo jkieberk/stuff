@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div id="header">
+      <span>TODO</span>
+    </div>
+    <div id="content">
+      <div id="list">
+        <ul>
+          <% @todos.each do |todo| %>
+          <li class='item'><%= todo %></li>
+          <% end %>
+        </ul>
+      </div>
+      <button id="button1" onclick="button1();">Button 1</button>
+        <button id="button2" onclick="button2();">Button 2</button>
+    </div>
+  </body>
+</html>
+
+<script>
+function button1()
+{
+  $('#list ul').append('<li class="new-item1">New Item</li>');
+}
+
+function button2()
+{
+  $('#list ul').append('<li class="new-item2">New Item</li>');
+}
+
+
+
+</script>

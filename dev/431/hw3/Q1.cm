@@ -1,0 +1,39 @@
+int numTickets = 75;
+int totalSale = 0;
+semaphore sell;
+semaphore print;
+
+void seller(int sellerNo)
+{
+   int sales = 0;
+   while( numTickets > 0)
+   {
+      wait(sell);
+      if( numTickets > 0 ){
+      if( random(100) > 80 )
+      {
+         sales = sales + 1;
+         totalSale = totalSale + 1;
+         numTickets = numTickets - 1;
+      }}        
+      signal(sell);
+   }
+    wait(print);
+    cout << "Total Sale For Seller " << sellerNo << " is: " <<  sales * 110 << "$"  << endl;
+    signal(print);
+}
+
+void main()
+{
+  initialsem( sell , 1);
+  initialsem(print, 1);
+  cobegin
+  {
+     seller(1);	 
+     seller(2);
+     seller(3);
+     seller(4);
+   }  
+    cout << "Total Tickets Sold for all Sellers: " << totalSale  << endl;
+    cout << "Total Sale for all sellers: " << totalSale * 110 << endl;
+}	

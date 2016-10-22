@@ -1,0 +1,136 @@
+monitor restaurant 
+  {
+  int holdit;
+  condition waitForOrderTaker; 
+  condition cookMeal;
+  condition payCheck;
+  int customersWaiting = 0;
+  int mealWaiting = 0;
+  int checkWaiting = 0;
+  int customersTaken = 0;
+
+   int getCustomersTaken()
+   {
+       return customersTaken;
+   }
+
+   void waitOrder()
+   {
+      customersWaiting = customersWaiting + 1;
+      waitc(waitForOrderTaker); 
+      customersWaiting = customersWaiting - 1;
+   }
+
+    void giveOrder()
+    {
+         mealWaiting = mealWaiting + 1;
+         waitc(cookMeal);
+         mealWaiting = mealWaiting - 1;
+    }
+
+     void payForMeal()
+    {
+         checkWaiting = checkWaiting + 1;
+         waitc(payCheck);
+         checkWaiting = checkWaiting - 1;
+    }
+
+   void takeOrder()
+   {
+      if(customersWaiting > 0)
+     {
+       signalc(waitForOrderTaker); 
+       cout << "Order Taken " << endl;
+     }
+   }
+  
+   void cookMeal()
+   {
+      if(mealWaiting > 0)
+      {
+       signalc(cookMeal);
+        cout << "Meal Cooked " << endl;
+      }
+   }
+
+   void takePayment()
+   {
+      if(checkWaiting > 0)
+       {
+        signalc(payCheck);
+        cout << "Payment Recieved " << endl;
+        customersTaken = customersTaken + 1;
+        if(customersTaken == 20)
+        {
+           cout << "Restaurant Closed!" << endl;
+         }
+       }
+   }
+} // end of monitor
+
+void customer(int cust)
+{
+    waitOrder();
+    cout << "Customer: " << cust << " Enters Restaurant " << endl;
+    giveOrder();
+   cout << "Order  For Customer: " << cust << " Taken " << endl;
+    payForMeal();
+   cout << "Customer: " << cout << " Done and Exits Restaurant " << endl;
+}
+
+void orderTaker()
+{
+   while(getCustomersTaken() < 20)
+   {
+       takeOrder();
+   }
+}
+
+void cook()
+{
+   while(getCustomersTaken() < 20)
+    {
+        cookMeal();
+    }
+}
+
+void cashier()
+{
+     while(getCustomersTaken() < 20)
+     {
+        takePayment();
+     }
+}
+
+void main()
+{
+  int i = 0;
+cobegin
+  {
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      customer(i++);
+      orderTaker();
+      orderTaker();
+      cook();
+      cook();
+      cashier();
+
+  }  }
